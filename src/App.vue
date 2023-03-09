@@ -1,15 +1,11 @@
 <template>
   <div id="app">
-    <input type="text" v-model="channel.name" />
-    <div>{{ name }}</div>
-
-    <button @click="isShow = !isShow">
-      <span v-if="isShow">An</span>
-      <span v-else>Hien</span>
-    </button>
-    <h1 v-bind:id="id" v-show="isShow" :class="{ dachon: selected }"> Hieu IT TV Show</h1>
-    <button @click="selected = !selected">Click</button>
-    <button v-on:click="channel.name = 'ABC'">Change name</button>
+    <input type="text" v-model="NewTask">
+    <button @click="addTask()">Them tasks</button>
+    <div v-for="(task, index) in tasks" :key="index">
+      <input type="checkbox" v-model="task.done">
+      <span :class="{ done: task.done }">{{ task.content }}</span>
+    </div>
   </div>
 </template>
 
@@ -21,12 +17,22 @@
 export default {
   data() {
     return {
-      channel: {
-        name: 'Lap trinh abc'
-      },
-      id: 'abc',
-      isShow: true,
-      selected: true
+      NewTask: '',
+      tasks: []
+    }
+  },
+  methods: {
+    addTask: function () {
+      this.tasks.push({ content: this.NewTask, done: false })
+    }
+  },
+  mounted() {
+    //goi api
+  },
+  watch: {
+    NewTask: function (newValue, oldValue) {
+      console.log(oldValue);
+      console.log(newValue)
     }
   }
 }
@@ -40,6 +46,10 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.done {
+  text-decoration: line-through;
 }
 
 .dachon {
